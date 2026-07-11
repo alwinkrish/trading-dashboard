@@ -1,22 +1,15 @@
-<!-- TradingView Widget BEGIN -->
-<div class="tradingview-widget-container">
-  <div class="tradingview-widget-container__widget"></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIFTY Trading Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
 
-  <script type="text/javascript"
-  src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js"
-  async>
-  {
-    "autosize": true,
-    "symbol": "NSE:NIFTY",
-    "interval": "5",
-    "timezone": "Asia/Kolkata",
-    "theme": "dark",
-    "style": "1",
-    "locale": "en",
-    "allow_symbol_change": true,
-    "calendar": false,
-    "support_host": "https://www.tradingview.com"
-  }<div class="container">
+<body>
+
+<div class="container">
 
 <h1>📊 NIFTY TRADING DASHBOARD</h1>
 
@@ -37,7 +30,7 @@
 
 <div class="card signal">
 <h2>Market Signal</h2>
-<p id="signal">WAIT</p>
+<p id="signal">🟡 WAIT</p>
 </div>
 
 <div class="card">
@@ -53,6 +46,6 @@
 </div>
 
 <script src="script.js"></script>
-  </script>
-</div>
-<!-- TradingView Widget END -->
+
+</body>
+</html>
