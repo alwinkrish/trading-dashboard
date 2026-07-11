@@ -1,4 +1,4 @@
-const API_URL = "https://nifty-api.alwinchristopher25.workers.dev";
+const API_URL = "https://nifty-api.alwinchristopher25.workers.dev/";
 
 async function loadData() {
     try {
