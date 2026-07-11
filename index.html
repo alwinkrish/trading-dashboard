@@ -1,37 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Trading Dashboard</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <h1>NIFTY Trading Dashboard</h1>
-
-    <h2 id="price">Loading...</h2>
-
-    <h2 id="signal">Waiting...</h2>
+<!-- TradingView Widget BEGIN -->
 <div class="tradingview-widget-container">
-  <div id="tradingview_chart"></div>
+  <div class="tradingview-widget-container__widget"></div>
+
+  <script type="text/javascript"
+  src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js"
+  async>
+  {
+    "autosize": true,
+    "symbol": "NSE:NIFTY",
+    "interval": "5",
+    "timezone": "Asia/Kolkata",
+    "theme": "dark",
+    "style": "1",
+    "locale": "en",
+    "allow_symbol_change": true,
+    "calendar": false,
+    "support_host": "https://www.tradingview.com"
+  }
+  </script>
 </div>
-
-<script src="https://s3.tradingview.com/tv.js"></script>
-
-<script>
-new TradingView.widget({
-    "width":"100%",
-    "height":500,
-    "symbol":"NSE:NIFTY",
-    "interval":"5",
-    "timezone":"Asia/Kolkata",
-    "theme":"dark",
-    "style":"1",
-    "locale":"en",
-    "toolbar_bg":"#111",
-    "enable_publishing":false,
-    "hide_top_toolbar":false,
-    "container_id":"tradingview_chart"
-});
-</script>
-    <script src="script.js"></script>
-</body>
-</html>
+<!-- TradingView Widget END -->
