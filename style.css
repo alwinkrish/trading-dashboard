@@ -25,3 +25,8 @@ h1{
     margin:auto;
     color:yellow;
 }
+.tradingview-widget-container{
+    width:95%;
+    height:600px;
+    margin:30px auto;
+}
