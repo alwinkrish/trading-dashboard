@@ -30,3 +30,47 @@ h1{
     height:600px;
     margin:30px auto;
 }
+body{
+    background:#0f172a;
+    color:white;
+    font-family:Arial,sans-serif;
+    margin:0;
+    padding:30px;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+}
+
+h1{
+    text-align:center;
+    color:#00ff99;
+    margin-bottom:30px;
+}
+
+.card{
+    background:#1e293b;
+    padding:20px;
+    margin-bottom:20px;
+    border-radius:12px;
+    box-shadow:0 0 10px rgba(0,0,0,.4);
+}
+
+.card h2{
+    margin:0;
+    color:#38bdf8;
+}
+
+.card p{
+    font-size:30px;
+    font-weight:bold;
+}
+
+.signal{
+    text-align:center;
+}
+
+#signal{
+    color:yellow;
+}
