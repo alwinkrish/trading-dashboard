@@ -1,7 +1,12 @@
 const API_URL = "https://nifty-api.alwinchristopher25.workers.dev";
 
 
+let oiChart = null;
+
+
+
 async function loadData() {
+
 
     try {
 
@@ -20,118 +25,83 @@ async function loadData() {
 
 
 
-        // ======================
-        // NIFTY
-        // ======================
+        // =========================
+        // BASIC DATA
+        // =========================
+
 
         document.getElementById("nifty").textContent =
             data.nifty || "--";
 
 
-
-        // ======================
-        // BANK NIFTY
-        // ======================
-
         document.getElementById("banknifty").textContent =
             data.banknifty || "Coming Soon";
 
-
-
-        // ======================
-        // INDIA VIX
-        // ======================
 
         document.getElementById("vix").textContent =
             data.vix || "Coming Soon";
 
 
 
-        // ======================
-        // SIGNAL
-        // ======================
-
         document.getElementById("signal").textContent =
             data.signal || "🟡 WAIT";
 
 
 
-        // ======================
-        // SUPPORT
-        // ======================
-
         document.getElementById("support").textContent =
             data.support || "--";
 
-
-
-        // ======================
-        // RESISTANCE
-        // ======================
 
         document.getElementById("resistance").textContent =
             data.resistance || "--";
 
 
 
-        // ======================
-        // CALL OI
-        // ======================
-
         document.getElementById("calloi").textContent =
             data.calloi || "Coming Soon";
 
-
-
-        // ======================
-        // PUT OI
-        // ======================
 
         document.getElementById("putoi").textContent =
             data.putoi || "Coming Soon";
 
 
-
-        // ======================
-        // PCR
-        // ======================
-
         document.getElementById("pcr").textContent =
             data.pcr || "Coming Soon";
 
-
-
-        // ======================
-        // ATM
-        // ======================
 
         document.getElementById("atm").textContent =
             data.atm || "Coming Soon";
 
 
 
-        // ======================
-        // LAST UPDATED
-        // ======================
-
         document.getElementById("lastUpdated").textContent =
             data.lastUpdated || data.time || "--";
 
 
 
-        // ======================
-        // OPTION CHAIN TABLE
-        // ======================
+
+
+        // =========================
+        // OPTION CHAIN
+        // =========================
+
 
         if(data.optionChain){
 
+
             loadOptionChain(data.optionChain);
+
+
+            loadOIChart(data.optionChain);
+
 
         }
 
 
 
+
     }
+
 
 
     catch(error){
@@ -147,14 +117,17 @@ async function loadData() {
     }
 
 
+
 }
 
 
 
 
-// ===============================
+
+
+// =================================
 // OPTION CHAIN TABLE
-// ===============================
+// =================================
 
 
 function loadOptionChain(optionChain){
@@ -165,35 +138,32 @@ function loadOptionChain(optionChain){
 
 
 
-    if(!table){
-
-        return;
-
-    }
+    if(!table) return;
 
 
 
-    table.innerHTML="";
+    table.innerHTML = "";
 
 
 
-    optionChain.forEach(row=>{
+    optionChain.forEach(row => {
 
 
-        let status="⚪ Neutral";
+
+        let status = "⚪ Neutral";
 
 
 
         if(row.putOI > row.callOI){
 
-            status="🟢 Support";
+            status = "🟢 Support";
 
         }
 
 
         else if(row.callOI > row.putOI){
 
-            status="🔴 Resistance";
+            status = "🔴 Resistance";
 
         }
 
@@ -204,28 +174,177 @@ function loadOptionChain(optionChain){
 
         <tr>
 
-            <td>${row.strike}</td>
+        <td>
+        ${row.strike}
+        </td>
 
 
-            <td>
-            ${(row.callOI/100000).toFixed(2)}L
-            </td>
+        <td>
+        ${(row.callOI/100000).toFixed(2)}L
+        </td>
 
 
-            <td>
-            ${(row.putOI/100000).toFixed(2)}L
-            </td>
+        <td>
+        ${(row.putOI/100000).toFixed(2)}L
+        </td>
 
 
-            <td>
-            ${status}
-            </td>
+        <td>
+        ${status}
+        </td>
 
 
         </tr>
 
-
         `;
+
+
+    });
+
+
+
+}
+
+
+
+
+
+
+
+
+// =================================
+// OI CHART
+// =================================
+
+
+function loadOIChart(optionChain){
+
+
+
+    const ctx =
+    document.getElementById("oiChart");
+
+
+
+    if(!ctx) return;
+
+
+
+
+    const labels =
+    optionChain.map(item =>
+        item.strike
+    );
+
+
+
+    const callOI =
+    optionChain.map(item =>
+        item.callOI / 100000
+    );
+
+
+
+    const putOI =
+    optionChain.map(item =>
+        item.putOI / 100000
+    );
+
+
+
+
+
+
+    if(oiChart){
+
+        oiChart.destroy();
+
+    }
+
+
+
+
+    oiChart = new Chart(ctx, {
+
+
+        type: "bar",
+
+
+
+        data:{
+
+
+            labels: labels,
+
+
+            datasets:[
+
+
+                {
+
+                label:"Call OI (Lakhs)",
+
+                data:callOI
+
+
+                },
+
+
+                {
+
+                label:"Put OI (Lakhs)",
+
+                data:putOI
+
+
+                }
+
+
+            ]
+
+
+        },
+
+
+
+        options:{
+
+
+            responsive:true,
+
+
+            plugins:{
+
+
+                legend:{
+
+
+                    display:true
+
+
+                }
+
+
+            },
+
+
+            scales:{
+
+
+                y:{
+
+
+                    beginAtZero:true
+
+
+                }
+
+
+            }
+
+
+
+        }
 
 
 
@@ -238,21 +357,29 @@ function loadOptionChain(optionChain){
 
 
 
-// ===============================
-// INITIAL LOAD
-// ===============================
+
+
+
+
+// =================================
+// FIRST LOAD
+// =================================
 
 
 loadData();
 
 
 
-// ===============================
+
+// =================================
 // AUTO REFRESH
-// ===============================
+// =================================
 
 
 setInterval(
+
     loadData,
+
     60000
+
 );
