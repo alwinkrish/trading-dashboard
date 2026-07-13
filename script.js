@@ -11,47 +11,54 @@ async function loadData() {
 
         const data = await response.json();
 
-        document.getElementById("nifty").innerHTML =
-            data.nifty ? Number(data.nifty).toFixed(2) : "Coming Soon";
+        // NIFTY
+        document.getElementById("nifty").textContent =
+            Number(data.nifty).toFixed(2);
 
-        document.getElementById("banknifty").innerHTML =
-            data.banknifty || "Coming Soon";
+        // BANK NIFTY
+        document.getElementById("banknifty").textContent =
+            data.banknifty;
 
-        document.getElementById("vix").innerHTML =
-            data.vix || "Coming Soon";
+        // INDIA VIX
+        document.getElementById("vix").textContent =
+            data.vix;
 
-        // Temporary Signal
-        let signal = "🟡 WAIT";
+        // MARKET SIGNAL
+        document.getElementById("signal").textContent =
+            data.signal;
 
-        if (data.nifty && data.nifty > 25000) {
-            signal = "🟢 BUY";
+        // SUPPORT
+        document.getElementById("support").textContent =
+            data.support;
+
+        // RESISTANCE
+        document.getElementById("resistance").textContent =
+            data.resistance;
+
+        // LAST UPDATED
+        if (document.getElementById("lastUpdated")) {
+            document.getElementById("lastUpdated").textContent =
+                data.lastUpdated;
         }
-
-        if (data.nifty && data.nifty < 24500) {
-            signal = "🔴 SELL";
-        }
-
-        document.getElementById("signal").innerHTML = signal;
-
-        document.getElementById("support").innerHTML =
-            data.support || "--";
-
-        document.getElementById("resistance").innerHTML =
-            data.resistance || "--";
 
     } catch (err) {
 
-        console.log(err);
+        console.error(err);
 
-        document.getElementById("nifty").innerHTML = "0.00";
-        document.getElementById("banknifty").innerHTML = "Coming Soon";
-        document.getElementById("vix").innerHTML = "Coming Soon";
-        document.getElementById("signal").innerHTML = "❌ API ERROR";
-        document.getElementById("support").innerHTML = "--";
-        document.getElementById("resistance").innerHTML = "--";
+        document.getElementById("nifty").textContent = "0.00";
+        document.getElementById("banknifty").textContent = "--";
+        document.getElementById("vix").textContent = "--";
+        document.getElementById("signal").textContent = "❌ API ERROR";
+        document.getElementById("support").textContent = "--";
+        document.getElementById("resistance").textContent = "--";
+
+        if (document.getElementById("lastUpdated")) {
+            document.getElementById("lastUpdated").textContent = "--";
+        }
     }
 }
 
+// Load immediately
 loadData();
 
 // Refresh every 30 seconds
