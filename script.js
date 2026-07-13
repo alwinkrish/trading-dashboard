@@ -1,19 +1,22 @@
 const API_URL = "https://nifty-api.alwinchristopher25.workers.dev";
 
 async function loadData() {
-
     try {
 
         const response = await fetch(API_URL);
 
+        if (!response.ok) {
+            throw new Error("API Error");
+        }
+
         const data = await response.json();
 
         // NIFTY
-        document.getElementById("nifty").innerHTML =
+        document.getElementById("nifty").textContent =
             data.nifty ? Number(data.nifty).toFixed(2) : "--";
 
         // BANK NIFTY
-        document.getElementById("banknifty").innerHTML =
+        document.getElementById("banknifty").textContent =
             data.banknifty || "Coming Soon";
 
         // INDIA VIX
@@ -21,7 +24,7 @@ async function loadData() {
 
         if (typeof data.vix === "number") {
 
-            vix.innerHTML = data.vix.toFixed(2);
+            vix.textContent = data.vix.toFixed(2);
 
             if (data.vix < 12) {
                 vix.style.color = "#00ff99";
@@ -33,64 +36,64 @@ async function loadData() {
 
         } else {
 
-            vix.innerHTML = data.vix || "Coming Soon";
+            vix.textContent = data.vix || "Coming Soon";
             vix.style.color = "white";
 
         }
 
         // MARKET SIGNAL
-        document.getElementById("signal").innerHTML =
+        document.getElementById("signal").textContent =
             data.signal || "🟡 WAIT";
 
         // SUPPORT
-        document.getElementById("support").innerHTML =
+        document.getElementById("support").textContent =
             data.support || "--";
 
         // RESISTANCE
-        document.getElementById("resistance").innerHTML =
+        document.getElementById("resistance").textContent =
             data.resistance || "--";
 
         // HIGHEST CALL OI
-        document.getElementById("calloi").innerHTML =
+        document.getElementById("calloi").textContent =
             data.calloi || "Coming Soon";
 
         // HIGHEST PUT OI
-        document.getElementById("putoi").innerHTML =
+        document.getElementById("putoi").textContent =
             data.putoi || "Coming Soon";
 
         // PCR
-        document.getElementById("pcr").innerHTML =
+        document.getElementById("pcr").textContent =
             data.pcr || "Coming Soon";
 
+        // ATM STRIKE
+        document.getElementById("atm").textContent =
+            data.atm || "Coming Soon";
+
         // LAST UPDATED
-        if (document.getElementById("lastUpdated")) {
-
-            document.getElementById("lastUpdated").innerHTML =
-                data.lastUpdated || "--";
-
-        }
+        document.getElementById("lastUpdated").textContent =
+            data.lastUpdated || "--";
 
     } catch (err) {
 
-        console.log(err);
+        console.error(err);
 
-        document.getElementById("nifty").innerHTML = "--";
-        document.getElementById("banknifty").innerHTML = "Coming Soon";
-        document.getElementById("vix").innerHTML = "Coming Soon";
-        document.getElementById("signal").innerHTML = "❌ API ERROR";
-        document.getElementById("support").innerHTML = "--";
-        document.getElementById("resistance").innerHTML = "--";
+        document.getElementById("nifty").textContent = "--";
+        document.getElementById("banknifty").textContent = "Coming Soon";
+        document.getElementById("vix").textContent = "Coming Soon";
+        document.getElementById("signal").textContent = "❌ API ERROR";
+        document.getElementById("support").textContent = "--";
+        document.getElementById("resistance").textContent = "--";
 
-        document.getElementById("calloi").innerHTML = "--";
-        document.getElementById("putoi").innerHTML = "--";
-        document.getElementById("pcr").innerHTML = "--";
-
+        document.getElementById("calloi").textContent = "--";
+        document.getElementById("putoi").textContent = "--";
+        document.getElementById("pcr").textContent = "--";
+        document.getElementById("atm").textContent = "--";
+        document.getElementById("lastUpdated").textContent = "--";
     }
-
 }
 
-// First Load
+// Initial Load
 loadData();
 
-// Refresh every 60 seconds
+// Auto Refresh every 60 seconds
 setInterval(loadData, 60000);
