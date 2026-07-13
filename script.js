@@ -4,33 +4,55 @@ async function loadData() {
     try {
 
         const response = await fetch(API_URL);
-        const data = await response.json();
 
-        document.getElementById("nifty").textContent = Number(data.nifty).toFixed(2);
-        document.getElementById("banknifty").textContent = data.banknifty;
-        document.getElementById("vix").textContent = data.vix;
-        document.getElementById("lastUpdated").textContent = data.lastUpdated;
-
-        const support = Number(data.nifty) - 100;
-        const resistance = Number(data.nifty) + 100;
-
-        document.getElementById("support").textContent = support.toFixed(2);
-        document.getElementById("resistance").textContent = resistance.toFixed(2);
-
-        if (Number(data.nifty) > support) {
-            document.getElementById("signal").textContent = "🟢 BUY CALL";
-        } else {
-            document.getElementById("signal").textContent = "🔴 BUY PUT";
+        if (!response.ok) {
+            throw new Error("API Error");
         }
 
-    } catch (error) {
+        const data = await response.json();
 
-        console.error(error);
+        document.getElementById("nifty").innerHTML =
+            data.nifty ? Number(data.nifty).toFixed(2) : "Coming Soon";
 
-        document.getElementById("signal").textContent = "❌ API ERROR";
+        document.getElementById("banknifty").innerHTML =
+            data.banknifty || "Coming Soon";
+
+        document.getElementById("vix").innerHTML =
+            data.vix || "Coming Soon";
+
+        // Temporary Signal
+        let signal = "🟡 WAIT";
+
+        if (data.nifty && data.nifty > 25000) {
+            signal = "🟢 BUY";
+        }
+
+        if (data.nifty && data.nifty < 24500) {
+            signal = "🔴 SELL";
+        }
+
+        document.getElementById("signal").innerHTML = signal;
+
+        document.getElementById("support").innerHTML =
+            data.support || "--";
+
+        document.getElementById("resistance").innerHTML =
+            data.resistance || "--";
+
+    } catch (err) {
+
+        console.log(err);
+
+        document.getElementById("nifty").innerHTML = "0.00";
+        document.getElementById("banknifty").innerHTML = "Coming Soon";
+        document.getElementById("vix").innerHTML = "Coming Soon";
+        document.getElementById("signal").innerHTML = "❌ API ERROR";
+        document.getElementById("support").innerHTML = "--";
+        document.getElementById("resistance").innerHTML = "--";
     }
 }
 
 loadData();
 
-setInterval(loadData,10000);
+// Refresh every 30 seconds
+setInterval(loadData, 30000);
