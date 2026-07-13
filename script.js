@@ -33,12 +33,12 @@ async function loadData() {
 
         } else {
 
-            vix.innerHTML = "Coming Soon";
+            vix.innerHTML = data.vix || "Coming Soon";
             vix.style.color = "white";
 
         }
 
-        // SIGNAL
+        // MARKET SIGNAL
         document.getElementById("signal").innerHTML =
             data.signal || "🟡 WAIT";
 
@@ -49,6 +49,18 @@ async function loadData() {
         // RESISTANCE
         document.getElementById("resistance").innerHTML =
             data.resistance || "--";
+
+        // HIGHEST CALL OI
+        document.getElementById("calloi").innerHTML =
+            data.calloi || "Coming Soon";
+
+        // HIGHEST PUT OI
+        document.getElementById("putoi").innerHTML =
+            data.putoi || "Coming Soon";
+
+        // PCR
+        document.getElementById("pcr").innerHTML =
+            data.pcr || "Coming Soon";
 
         // LAST UPDATED
         if (document.getElementById("lastUpdated")) {
@@ -69,10 +81,15 @@ async function loadData() {
         document.getElementById("support").innerHTML = "--";
         document.getElementById("resistance").innerHTML = "--";
 
+        document.getElementById("calloi").innerHTML = "--";
+        document.getElementById("putoi").innerHTML = "--";
+        document.getElementById("pcr").innerHTML = "--";
+
     }
 
 }
 
+// First Load
 loadData();
 
 // Refresh every 60 seconds
