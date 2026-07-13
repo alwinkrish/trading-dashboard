@@ -2,102 +2,305 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TradeVision AI</title>
 
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>TradeVision AI</title>
+
+<link rel="stylesheet" href="style.css">
+
+
+<!-- Chart.js Library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
 </head>
+
 
 <body>
 
+
 <div class="container">
+
 
 <h1>📈 TradeVision AI</h1>
 
-<div class="card">
-    <h2>NIFTY</h2>
-    <p id="nifty">Loading...</p>
-</div>
+
 
 <div class="card">
-    <h2>BANK NIFTY</h2>
-    <p id="banknifty">Loading...</p>
+
+<h2>NIFTY</h2>
+
+<p id="nifty">Loading...</p>
+
 </div>
 
+
+
+
 <div class="card">
-    <h2>INDIA VIX</h2>
-    <p id="vix">Loading...</p>
+
+<h2>BANK NIFTY</h2>
+
+<p id="banknifty">Loading...</p>
+
 </div>
+
+
+
+
+<div class="card">
+
+<h2>INDIA VIX</h2>
+
+<p id="vix">Loading...</p>
+
+</div>
+
+
+
 
 <div class="card signal">
-    <h2>Market Signal</h2>
-    <p id="signal">🟡 WAIT</p>
+
+<h2>Market Signal</h2>
+
+<p id="signal">🟡 WAIT</p>
+
 </div>
+
+
+
 
 <div class="card">
-    <h2>Support</h2>
-    <p id="support">--</p>
+
+<h2>Support</h2>
+
+<p id="support">--</p>
+
 </div>
+
+
+
 
 <div class="card">
-    <h2>Resistance</h2>
-    <p id="resistance">--</p>
+
+<h2>Resistance</h2>
+
+<p id="resistance">--</p>
+
 </div>
+
+
+
 
 <div class="card">
-    <h2>📊 Highest Call OI</h2>
-    <p id="calloi">Coming Soon</p>
+
+<h2>📊 Highest Call OI</h2>
+
+<p id="calloi">Coming Soon</p>
+
 </div>
+
+
+
 
 <div class="card">
-    <h2>📈 Highest Put OI</h2>
-    <p id="putoi">Coming Soon</p>
+
+<h2>📈 Highest Put OI</h2>
+
+<p id="putoi">Coming Soon</p>
+
 </div>
+
+
+
 
 <div class="card">
-    <h2>⚖️ PCR</h2>
-    <p id="pcr">Coming Soon</p>
+
+<h2>⚖️ PCR</h2>
+
+<p id="pcr">Coming Soon</p>
+
 </div>
+
+
+
 
 <div class="card">
-    <h2>🎯 ATM Strike</h2>
-    <p id="atm">Coming Soon</p>
+
+<h2>🎯 ATM Strike</h2>
+
+<p id="atm">Coming Soon</p>
+
 </div>
+
+
+
 
 <div class="card">
-    <h2>🕒 Last Updated</h2>
-    <p id="lastUpdated">--</p>
-</div>
+
+<h2>🕒 Last Updated</h2>
+
+<p id="lastUpdated">--</p>
 
 </div>
+
+
+
+
+
+<!-- OPTION CHAIN TABLE -->
+
+
+<div class="card">
+
+
+<h2>📊 Option Chain Analysis</h2>
+
+
+<table>
+
+
+<thead>
+
+<tr>
+
+<th>Strike</th>
+
+<th>Call OI</th>
+
+<th>Put OI</th>
+
+<th>Status</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+<tbody id="optionChainTable">
+
+
+<tr>
+
+<td colspan="4">
+
+Loading...
+
+</td>
+
+
+</tr>
+
+
+</tbody>
+
+
+
+</table>
+
+
+</div>
+
+
+
+
+
+<!-- OI CHART -->
+
+
+<div class="card">
+
+
+<h2>📊 Call vs Put OI Chart</h2>
+
+
+<canvas id="oiChart"></canvas>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
 
 <!-- TradingView Chart -->
+
+
 <div class="tradingview-widget-container">
-    <div id="tradingview_chart"></div>
+
+
+<div id="tradingview_chart"></div>
+
+
 </div>
+
+
+
+
+
+<!-- TradingView Script -->
 
 <script src="https://s3.tradingview.com/tv.js"></script>
 
+
+
 <script>
+
+
 new TradingView.widget({
-    "width": "100%",
-    "height": 550,
-    "symbol": "NSE:NIFTY",
-    "interval": "5",
-    "timezone": "Asia/Kolkata",
-    "theme": "dark",
-    "style": "1",
-    "locale": "en",
-    "toolbar_bg": "#111827",
-    "enable_publishing": false,
-    "hide_top_toolbar": false,
-    "allow_symbol_change": true,
-    "container_id": "tradingview_chart"
+
+"width": "100%",
+
+"height": 550,
+
+"symbol": "NSE:NIFTY",
+
+"interval": "5",
+
+"timezone": "Asia/Kolkata",
+
+"theme": "dark",
+
+"style": "1",
+
+"locale": "en",
+
+"toolbar_bg": "#111827",
+
+"enable_publishing": false,
+
+"hide_top_toolbar": false,
+
+"allow_symbol_change": true,
+
+"container_id": "tradingview_chart"
+
+
 });
+
+
 </script>
+
+
+
+
 
 <script src="script.js"></script>
 
+
+
 </body>
+
+
 </html>
