@@ -21,6 +21,7 @@ async function loadData() {
         }
 
 
+
         const data = await response.json();
 
 
@@ -34,8 +35,10 @@ async function loadData() {
             data.nifty || "--";
 
 
+
         document.getElementById("banknifty").textContent =
             data.banknifty || "Coming Soon";
+
 
 
         document.getElementById("vix").textContent =
@@ -43,13 +46,44 @@ async function loadData() {
 
 
 
+
+
+        // =========================
+        // AI SIGNAL
+        // =========================
+
+
         document.getElementById("signal").textContent =
             data.signal || "🟡 WAIT";
 
 
 
+        document.getElementById("confidence").textContent =
+            data.confidence || "--";
+
+
+
+        document.getElementById("trend").textContent =
+            data.trend || "--";
+
+
+
+        document.getElementById("reason").textContent =
+            data.reason || "--";
+
+
+
+
+
+
+        // =========================
+        // SUPPORT RESISTANCE
+        // =========================
+
+
         document.getElementById("support").textContent =
             data.support || "--";
+
 
 
         document.getElementById("resistance").textContent =
@@ -57,16 +91,27 @@ async function loadData() {
 
 
 
+
+
+
+        // =========================
+        // OI DATA
+        // =========================
+
+
         document.getElementById("calloi").textContent =
             data.calloi || "Coming Soon";
+
 
 
         document.getElementById("putoi").textContent =
             data.putoi || "Coming Soon";
 
 
+
         document.getElementById("pcr").textContent =
             data.pcr || "Coming Soon";
+
 
 
         document.getElementById("atm").textContent =
@@ -74,8 +119,11 @@ async function loadData() {
 
 
 
+
+
         document.getElementById("lastUpdated").textContent =
-            data.lastUpdated || data.time || "--";
+            data.lastUpdated || "--";
+
 
 
 
@@ -89,14 +137,17 @@ async function loadData() {
         if(data.optionChain){
 
 
-            loadOptionChain(data.optionChain);
+            loadOptionChain(
+                data.optionChain
+            );
 
 
-            loadOIChart(data.optionChain);
+            loadOIChart(
+                data.optionChain
+            );
 
 
         }
-
 
 
 
@@ -117,7 +168,6 @@ async function loadData() {
     }
 
 
-
 }
 
 
@@ -125,16 +175,21 @@ async function loadData() {
 
 
 
+
+
 // =================================
-// OPTION CHAIN TABLE
+// OPTION TABLE
 // =================================
 
 
 function loadOptionChain(optionChain){
 
 
+
     const table =
-    document.getElementById("optionChainTable");
+    document.getElementById(
+        "optionChainTable"
+    );
 
 
 
@@ -146,26 +201,35 @@ function loadOptionChain(optionChain){
 
 
 
-    optionChain.forEach(row => {
+
+    optionChain.forEach(row=>{
 
 
-
-        let status = "⚪ Neutral";
+        let status =
+        "⚪ Neutral";
 
 
 
         if(row.putOI > row.callOI){
 
-            status = "🟢 Support";
+
+            status =
+            "🟢 Support";
+
 
         }
 
 
         else if(row.callOI > row.putOI){
 
-            status = "🔴 Resistance";
+
+            status =
+            "🔴 Resistance";
+
 
         }
+
+
 
 
 
@@ -196,14 +260,16 @@ function loadOptionChain(optionChain){
 
         </tr>
 
+
         `;
 
 
     });
 
 
-
 }
+
+
 
 
 
@@ -221,34 +287,39 @@ function loadOIChart(optionChain){
 
 
 
-    const ctx =
-    document.getElementById("oiChart");
+    const chartElement =
+    document.getElementById(
+        "oiChart"
+    );
 
 
 
-    if(!ctx) return;
+    if(!chartElement) return;
+
+
 
 
 
 
     const labels =
-    optionChain.map(item =>
-        item.strike
+    optionChain.map(
+        item=>item.strike
     );
 
 
 
-    const callOI =
-    optionChain.map(item =>
-        item.callOI / 100000
+    const callData =
+    optionChain.map(
+        item=>item.callOI/100000
     );
 
 
 
-    const putOI =
-    optionChain.map(item =>
-        item.putOI / 100000
+    const putData =
+    optionChain.map(
+        item=>item.putOI/100000
     );
+
 
 
 
@@ -257,24 +328,32 @@ function loadOIChart(optionChain){
 
     if(oiChart){
 
+
         oiChart.destroy();
+
 
     }
 
 
 
 
-    oiChart = new Chart(ctx, {
 
 
-        type: "bar",
 
+    oiChart = new Chart(
+
+        chartElement,
+
+
+        {
+
+        type:"bar",
 
 
         data:{
 
 
-            labels: labels,
+            labels:labels,
 
 
             datasets:[
@@ -282,20 +361,19 @@ function loadOIChart(optionChain){
 
                 {
 
-                label:"Call OI (Lakhs)",
+                label:"Call OI (L)",
 
-                data:callOI
-
+                data:callData
 
                 },
 
 
+
                 {
 
-                label:"Put OI (Lakhs)",
+                label:"Put OI (L)",
 
-                data:putOI
-
+                data:putData
 
                 }
 
@@ -325,21 +403,6 @@ function loadOIChart(optionChain){
                 }
 
 
-            },
-
-
-            scales:{
-
-
-                y:{
-
-
-                    beginAtZero:true
-
-
-                }
-
-
             }
 
 
@@ -348,7 +411,11 @@ function loadOIChart(optionChain){
 
 
 
-    });
+        }
+
+
+
+    );
 
 
 
@@ -361,9 +428,9 @@ function loadOIChart(optionChain){
 
 
 
-// =================================
-// FIRST LOAD
-// =================================
+// ===============================
+// START
+// ===============================
 
 
 loadData();
@@ -371,10 +438,7 @@ loadData();
 
 
 
-// =================================
-// AUTO REFRESH
-// =================================
-
+// Refresh Every 60 seconds
 
 setInterval(
 
