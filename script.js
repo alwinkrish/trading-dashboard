@@ -1,9 +1,11 @@
 const API_URL = "https://nifty-api.alwinchristopher25.workers.dev";
 
 async function loadData() {
+
     try {
 
         const response = await fetch(API_URL);
+
         const data = await response.json();
 
         // NIFTY
@@ -15,42 +17,63 @@ async function loadData() {
             data.banknifty || "Coming Soon";
 
         // INDIA VIX
-        document.getElementById("vix").innerHTML =
-            data.vix || "Coming Soon";
+        const vix = document.getElementById("vix");
 
-        // -------- Market Signal --------
-        let signal = "🟡 WAIT";
-        let support = "--";
-        let resistance = "--";
+        if (typeof data.vix === "number") {
 
-        if (data.nifty) {
+            vix.innerHTML = data.vix.toFixed(2);
 
-            const price = Number(data.nifty);
-
-            support = (price - 100).toFixed(2);
-            resistance = (price + 100).toFixed(2);
-
-            if (price > resistance - 20) {
-                signal = "🟢 BUY";
-            } else if (price < support + 20) {
-                signal = "🔴 SELL";
+            if (data.vix < 12) {
+                vix.style.color = "#00ff99";
+            } else if (data.vix < 18) {
+                vix.style.color = "yellow";
+            } else {
+                vix.style.color = "red";
             }
+
+        } else {
+
+            vix.innerHTML = "Coming Soon";
+            vix.style.color = "white";
 
         }
 
-        document.getElementById("signal").innerHTML = signal;
-        document.getElementById("support").innerHTML = support;
-        document.getElementById("resistance").innerHTML = resistance;
+        // SIGNAL
+        document.getElementById("signal").innerHTML =
+            data.signal || "🟡 WAIT";
+
+        // SUPPORT
+        document.getElementById("support").innerHTML =
+            data.support || "--";
+
+        // RESISTANCE
+        document.getElementById("resistance").innerHTML =
+            data.resistance || "--";
+
+        // LAST UPDATED
+        if (document.getElementById("lastUpdated")) {
+
+            document.getElementById("lastUpdated").innerHTML =
+                data.lastUpdated || "--";
+
+        }
 
     } catch (err) {
 
+        console.log(err);
+
+        document.getElementById("nifty").innerHTML = "--";
+        document.getElementById("banknifty").innerHTML = "Coming Soon";
+        document.getElementById("vix").innerHTML = "Coming Soon";
         document.getElementById("signal").innerHTML = "❌ API ERROR";
+        document.getElementById("support").innerHTML = "--";
+        document.getElementById("resistance").innerHTML = "--";
 
     }
+
 }
 
-// Load immediately
 loadData();
 
-// Auto Refresh every 60 seconds
+// Refresh every 60 seconds
 setInterval(loadData, 60000);
